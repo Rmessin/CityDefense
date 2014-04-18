@@ -93,8 +93,8 @@ public class ConsoleHandler implements Runnable{
         String cmd = slicedCommand[0];
         
         if(cmd.equalsIgnoreCase("help")){   ShowHelp(slicedCommand); }
-        if(cmd.equalsIgnoreCase("exit")){   Exit(slicedCommand); }
-        if(cmd.equalsIgnoreCase("village")){   Village(slicedCommand); }
+        else if(cmd.equalsIgnoreCase("exit")){   Exit(slicedCommand); }
+        else if(cmd.equalsIgnoreCase("village")){   Village(slicedCommand); }
         else{
             System.out.println("ERROR: Command not found.");
             ShowHelp(slicedCommand);
