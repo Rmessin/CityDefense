@@ -9,6 +9,7 @@ package com.thenewprogramming.citydefense.server;
 import java.io.Console;
 import static java.lang.System.console;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -50,7 +51,7 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static String[] SliceInput(String cmdline){
-        String command;
+        /*String command;
         try{
             command = cmdline.substring(0, cmdline.indexOf(" "));
         }
@@ -87,7 +88,8 @@ public class ConsoleHandler implements Runnable{
         ArrayList<String> returnvalue = new ArrayList<>();
         returnvalue.add(command);
         returnvalue.addAll(args);
-        return returnvalue.toArray(new String[returnvalue.size()]);
+        return returnvalue.toArray(new String[returnvalue.size()]);*/
+        return cmdline.split(" ");
     }
     
     
@@ -96,14 +98,19 @@ public class ConsoleHandler implements Runnable{
         
         if(cmd.equalsIgnoreCase("")){return;}
         
-        if(cmd.equalsIgnoreCase("help")){   ShowHelp(slicedCommand); }
-        else if(cmd.equalsIgnoreCase("exit")){   Exit(slicedCommand); }
-        else if(cmd.equalsIgnoreCase("village")){   Village(slicedCommand); }
+        if(cmd.equalsIgnoreCase("help")) ShowHelp(slicedCommand);
+        else if(cmd.equalsIgnoreCase("exit")) Exit(slicedCommand);
+        else if(cmd.equalsIgnoreCase("village")) Village(slicedCommand);
+        else if(cmd.equalsIgnoreCase("test")) Test(slicedCommand);
         else{
             System.out.println("ERROR: Command not found.");
             ShowHelp(slicedCommand);
         }
         
+    }
+    
+    private static void Test(String[] cmdline) {
+        System.out.println(java.util.Arrays.toString(cmdline));
     }
     
     private static void Exit(String[] cmdline) {
@@ -118,22 +125,22 @@ public class ConsoleHandler implements Runnable{
     
     private static void Village(String[] cmdline){
         if(cmdline[1].equalsIgnoreCase("add")){
-            
+            VillageAdd(cmdline);
         }
         if(cmdline[1].equalsIgnoreCase("remove")){
-            
+            VillageRemove(cmdline);
         }
         if(cmdline[1].equalsIgnoreCase("upgrade")){
-            
+            VillageUpgrade(cmdline);
         }
         if(cmdline[1].equalsIgnoreCase("downgrade")){
-            
+            VillageDowngrade(cmdline);
         }
         if(cmdline[1].equalsIgnoreCase("addtroops")){
-            
+            VillageAddTroops(cmdline);
         }
         if(cmdline[1].equalsIgnoreCase("removetroops")){
-            
+            VillageRemoveTroops(cmdline);
         }
     }
     
