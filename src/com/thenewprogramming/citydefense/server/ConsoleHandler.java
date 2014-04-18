@@ -36,7 +36,9 @@ public class ConsoleHandler implements Runnable{
                 String[] slicedCommandLine = SliceInput(cmdline);
                 HandleCommand(slicedCommandLine);
                 if(exit){return;}
-                System.out.print("> ");
+                if(!slicedCommandLine[0].equalsIgnoreCase("")){//voorkom heel veel > als je eerst een paar keer op enter drukt...
+                    System.out.print("> ");
+                }
             }
         }
     }
@@ -91,6 +93,8 @@ public class ConsoleHandler implements Runnable{
     
     private static void HandleCommand(String[] slicedCommand) {
         String cmd = slicedCommand[0];
+        
+        if(cmd.equalsIgnoreCase("")){return;}
         
         if(cmd.equalsIgnoreCase("help")){   ShowHelp(slicedCommand); }
         else if(cmd.equalsIgnoreCase("exit")){   Exit(slicedCommand); }
