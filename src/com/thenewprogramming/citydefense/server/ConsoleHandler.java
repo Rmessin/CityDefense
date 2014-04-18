@@ -9,7 +9,6 @@ package com.thenewprogramming.citydefense.server;
 import java.io.Console;
 import static java.lang.System.console;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
