@@ -16,7 +16,7 @@ public class Main {
         ConsoleHandlerThread.start();
         
         GameloopThread = new Thread(new ConsoleHandler());
-        ConsoleHandlerThread.start();
+        GameloopThread.start();
         
     }
     
