@@ -1,1 +1,1 @@
-java -jar \dist\CityDefense.jar
+java -jar dist\CityDefense.jar
