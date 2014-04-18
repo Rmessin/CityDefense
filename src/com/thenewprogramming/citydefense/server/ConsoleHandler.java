@@ -30,12 +30,13 @@ public class ConsoleHandler implements Runnable{
     private static void ListenToCommands() {
         if (System.console() != null) {
             Scanner s = new Scanner(System.in);
-            System.out.print(">");
+            System.out.print("> ");
             while(s.hasNext() && !exit){
                 String cmdline = s.nextLine();
                 String[] slicedCommandLine = SliceInput(cmdline);
                 HandleCommand(slicedCommandLine);
                 if(exit){return;}
+                System.out.print("> ");
             }
         }
     }
