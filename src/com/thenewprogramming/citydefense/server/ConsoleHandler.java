@@ -113,34 +113,43 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static void Exit(String[] cmdline) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         exit = true;
     }
     
     private static void ShowHelp(String[] cmdline) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO add help texts for specific commands
         System.out.println("I am the help text.");
     }
     
     private static void Village(String[] cmdline){
-        if(cmdline[1].equalsIgnoreCase("add")){
+        if (cmdline[1].equalsIgnoreCase("list")||cmdline[1].equalsIgnoreCase("show")){
+            VillageList(cmdline);
+        }
+        else if(cmdline[1].equalsIgnoreCase("add")){
             VillageAdd(cmdline);
         }
-        if(cmdline[1].equalsIgnoreCase("remove")){
+        else if(cmdline[1].equalsIgnoreCase("remove")){
             VillageRemove(cmdline);
         }
-        if(cmdline[1].equalsIgnoreCase("upgrade")){
+        else if(cmdline[1].equalsIgnoreCase("upgrade")){
             VillageUpgrade(cmdline);
         }
-        if(cmdline[1].equalsIgnoreCase("downgrade")){
+        else if(cmdline[1].equalsIgnoreCase("downgrade")){
             VillageDowngrade(cmdline);
         }
-        if(cmdline[1].equalsIgnoreCase("addtroops")){
+        else if(cmdline[1].equalsIgnoreCase("addtroops")){
             VillageAddTroops(cmdline);
         }
-        if(cmdline[1].equalsIgnoreCase("removetroops")){
+        else if(cmdline[1].equalsIgnoreCase("removetroops")){
             VillageRemoveTroops(cmdline);
         }
+        else{
+            ShowHelp(cmdline);
+        }
+    }
+    
+    private static void VillageList(String[] cmdline){
+        
     }
     
     private static void VillageAdd(String[] cmdline){
