@@ -50,44 +50,6 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static String[] SliceInput(String cmdline){
-        /*String command;
-        try{
-            command = cmdline.substring(0, cmdline.indexOf(" "));
-        }
-        catch(StringIndexOutOfBoundsException e){
-            String[] returnvalue = new String[1];
-            returnvalue[0] = cmdline;
-            return returnvalue;
-        }
-        String argsline = cmdline.substring(cmdline.indexOf(" ")+1);
-        ArrayList<String> args = new ArrayList<>();
-        
-        ArrayList<Integer> indexesOfSpaces = new ArrayList<>();
-        indexesOfSpaces.add(new Integer(-1));
-        for(int i = 0; i < argsline.length(); i++){
-            if(argsline.substring(i, i+1).equals(" ")){
-                indexesOfSpaces.add(new Integer(i));
-                System.out.println(i);
-            }
-        }
-        
-        for(int i = 0; i < indexesOfSpaces.size(); i++){
-            
-            try{
-                args.add(argsline.substring(indexesOfSpaces.get(i) +1, indexesOfSpaces.get(i+1)));
-                System.out.println(args.get(i));
-            }
-            catch(IndexOutOfBoundsException e){
-                args.add(argsline.substring(indexesOfSpaces.get(i)+1));
-            }
-        }
-        
-        
-        
-        ArrayList<String> returnvalue = new ArrayList<>();
-        returnvalue.add(command);
-        returnvalue.addAll(args);
-        return returnvalue.toArray(new String[returnvalue.size()]);*/
         return cmdline.split(" ");
     }
     
