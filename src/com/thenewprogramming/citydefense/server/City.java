@@ -181,4 +181,32 @@ public class City {
         }
         return null;
     }
+    
+    public String getName() {
+        return Name;
+    }
+
+    public int getStoragePerRecourse() {
+        return StoragePerRecourse;
+    }
+
+    public int getCoinSupply() {
+        return CoinSupply;
+    }
+
+    public int getStoneSupply() {
+        return StoneSupply;
+    }
+
+    public int getIronSupply() {
+        return IronSupply;
+    }
+
+    public int getWoodSupply() {
+        return WoodSupply;
+    }
+
+    public int getFoodSupply() {
+        return FoodSupply;
+    }
 }

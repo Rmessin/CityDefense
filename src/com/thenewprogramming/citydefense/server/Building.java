@@ -11,7 +11,7 @@ public class Building extends CityTile{
     protected int[][] CostToLevel = new int[5][maxLevel+1];/*Stone, Iron, Population, Wood and Time*/
     protected ArrayList<Integer> PointsPerUpgrade;
     protected boolean IsUpgrading;
-    protected int ticksUntilEndOfProduction;
+    protected int ticksUntilEndOfProduction; //Een tick is een game update, dit is waarschijnlijk gelijk aan het aantal seconden.
     
     public Building(int city, int location){
         super(city, location);
@@ -29,7 +29,6 @@ public class Building extends CityTile{
             else if(PopulationWorkingOnBuild > 25){
                 ticksUntilEndOfProduction = ticksUntilEndOfProduction - 25;
             }
-            
         }
     }
     

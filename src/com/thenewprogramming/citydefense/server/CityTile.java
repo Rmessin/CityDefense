@@ -9,6 +9,10 @@ public class CityTile {
     protected int Location;
     
     
+    public void update(){
+        
+    }
+    
     public CityTile(int city, int location){
         this.City = city;
         this.Location = location;
@@ -27,6 +31,7 @@ public class CityTile {
         }
         
         return ReturnValue;
+        
         
     }
     
