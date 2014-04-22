@@ -42,7 +42,11 @@ public class WebclientHandler implements Runnable{
             String webclientRequestLine = incomingReader.readLine();
             System.out.println("Got request: " + webclientRequestLine);
             System.out.println("now handling request....");
-            HandleRequest(webclientRequestLine, outgoingStream);
+            try {
+                HandleRequest(webclientRequestLine, outgoingStream);
+            } catch (Exception e) {
+                outgoingStream.writeBytes("Error");
+            }
             connectionSocket.close();
         }
         
@@ -50,10 +54,11 @@ public class WebclientHandler implements Runnable{
     
     private String loadPage(String[] query) {
         if (query.length < 3) return "Protocol mismatch";
+        Gson gson = new Gson();
         switch (query[2]) {
-            case "overview": Resources(Integer.parseInt(query[0]));
-                             break;
+            case "overview": return gson.toJson(new Resources(Integer.parseInt(query[0])));
         }
+        return "Protocol mismatch";
     }
     
     private void HandleRequest(String webclientRequestLine, DataOutputStream outgoingStream) throws IOException{
@@ -80,8 +85,8 @@ class Resources {
     
     Resources(City city) {
         coins = city.getCoinSupply();
-        stone = city.getSronSupply();
-        iron = city.getIronSuplly();
+        stone = city.getStoneSupply();
+        iron = city.getIronSupply();
         wood = city.getWoodSupply();
         food = city.getFoodSupply();
     }
