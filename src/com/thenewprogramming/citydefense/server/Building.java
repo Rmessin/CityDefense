@@ -11,7 +11,7 @@ public class Building extends CityTile{
     protected int[][] CostToLevel = new int[5][maxLevel+1];/*Stone, Iron, Population, Wood and Time*/
     protected ArrayList<Integer> PointsPerUpgrade;
     protected boolean IsUpgrading;
-    protected int ticksUntilEndOfProduction; //Een tick is een game update, dit is waarschijnlijk gelijk aan het aantal seconden.
+    protected int ticksUntilEndOfConstruction; //Een tick is een game update, dit is waarschijnlijk gelijk aan het aantal seconden.
     
     public Building(int city, int location){
         super(city, location);
@@ -20,16 +20,19 @@ public class Building extends CityTile{
     public void update(){
         if(IsUpgrading){
             int PopulationWorkingOnBuild = Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() + CostToLevel[2][level];
-            if(ticksUntilEndOfProduction == 0){
+            if(ticksUntilEndOfConstruction == 0){
                 this.onUpgrade();
             }
             else if(PopulationWorkingOnBuild <= 25){
-                ticksUntilEndOfProduction = ticksUntilEndOfProduction - PopulationWorkingOnBuild;
+                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - PopulationWorkingOnBuild;
             }
             else if(PopulationWorkingOnBuild > 25){
-                ticksUntilEndOfProduction = ticksUntilEndOfProduction - 25;
+                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - 25;
             }
         }
+        
+        
+        
     }
     
     /**
@@ -53,7 +56,9 @@ public class Building extends CityTile{
         level++;
         Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
         IsUpgrading = false;
-        ticksUntilEndOfProduction = 0;
+        ticksUntilEndOfConstruction = 0;
+        Server.GetCityById(City).IncreaseEmployedPopulation(CostToLevel[2][level]);
+        
     }
     
     /**
@@ -70,6 +75,6 @@ public class Building extends CityTile{
     
     public void startUpgrade(){
         IsUpgrading = true;
-        ticksUntilEndOfProduction = CostToLevel[4][level];
+        ticksUntilEndOfConstruction = CostToLevel[4][level];
     }
 }
