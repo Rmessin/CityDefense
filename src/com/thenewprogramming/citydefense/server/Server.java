@@ -71,7 +71,12 @@ public class Server {
         //TODO: Read all PlayerData from file in directory and insert that data into Server class.
     }
     
+    public static ArrayList<City> getCities(){
+        return Cities;
+    }
     
-    
+    public static ArrayList<Player> getPlayers(){
+        return Players;
+    }
     
 }
