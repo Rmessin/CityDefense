@@ -94,12 +94,12 @@ public class City {
     }
     
     public void update(){
-        
         for(int i = 0; i < CityTiles.size(); i++){
             if(CityTiles.get(i).getClass().getSuperclass() == Building.class){
                 ((Building)CityTiles.get(i)).update();
             }
         }
+        
     }
     
     public void addToSupply(String Recource, int amount){
