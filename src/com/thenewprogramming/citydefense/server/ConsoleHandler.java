@@ -99,7 +99,7 @@ public class ConsoleHandler implements Runnable{
         
         if(cmd.equalsIgnoreCase("help")) ShowHelp(slicedCommand);
         else if(cmd.equalsIgnoreCase("exit")) Exit(slicedCommand);
-        else if(cmd.equalsIgnoreCase("village")) Village(slicedCommand);
+        else if(cmd.equalsIgnoreCase("city")) City(slicedCommand);
         else if(cmd.equalsIgnoreCase("test")) Test(slicedCommand);
         else{
             System.out.println("ERROR: Command not found.");
@@ -119,60 +119,70 @@ public class ConsoleHandler implements Runnable{
     private static void ShowHelp(String[] cmdline) {
         //TODO add help texts for specific commands
         System.out.println("I am the help text.");
+        
+        if(cmdline[0].equalsIgnoreCase("City") || cmdline[1].equalsIgnoreCase("City")){
+            
+        }
+        else if(cmdline[0].equalsIgnoreCase("Exit") || cmdline[1].equalsIgnoreCase("Exit")){
+            
+        }
+        else if(cmdline[0].equalsIgnoreCase("Test") || cmdline[1].equalsIgnoreCase("Test")){
+            
+        }
     }
     
-    private static void Village(String[] cmdline){
+    private static void City(String[] cmdline){
         if (cmdline[1].equalsIgnoreCase("list")||cmdline[1].equalsIgnoreCase("show")){
-            VillageList(cmdline);
+            CityList(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("add")){
-            VillageAdd(cmdline);
+            CityAdd(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("remove")){
-            VillageRemove(cmdline);
+            CityRemove(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("upgrade")){
-            VillageUpgrade(cmdline);
+            CityUpgrade(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("downgrade")){
-            VillageDowngrade(cmdline);
+            CityDowngrade(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("addtroops")){
-            VillageAddTroops(cmdline);
+            CityAddTroops(cmdline);
         }
         else if(cmdline[1].equalsIgnoreCase("removetroops")){
-            VillageRemoveTroops(cmdline);
+            CityRemoveTroops(cmdline);
         }
         else{
             ShowHelp(cmdline);
         }
     }
     
-    private static void VillageList(String[] cmdline){
+    private static void CityList(String[] cmdline){
         
     }
     
-    private static void VillageAdd(String[] cmdline){
+    private static void CityAdd(String[] cmdline){
         
     }
     
-    private static void VillageRemove(String[] cmdline){
+    private static void CityRemove(String[] cmdline){
         
     }
     
-    private static void VillageUpgrade(String[] cmdline){
+    private static void CityUpgrade(String[] cmdline){
         
     }
     
-    private static void VillageDowngrade(String[] cmdline){
+    private static void CityDowngrade(String[] cmdline){
         
     }
     
-    private static void VillageAddTroops(String[] cmdline){
+    private static void CityAddTroops(String[] cmdline){
         
     }
     
-    private static void VillageRemoveTroops(String[] cmdline){
+    private static void CityRemoveTroops(String[] cmdline){
         
     }
     

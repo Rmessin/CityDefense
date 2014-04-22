@@ -100,7 +100,6 @@ public class City {
                 ((Building)CityTiles.get(i)).update();
             }
         }
-        
     }
     
     public void addToSupply(String Recource, int amount){
