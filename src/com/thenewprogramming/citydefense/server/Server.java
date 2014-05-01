@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class Server {
     private static int nextCityId = 0;
     private static int nextPlayerId;
-    private static ArrayList<City> Cities;
-    private static ArrayList<Player> Players;
+    private static ArrayList<City> Cities = new ArrayList<City>();
+    private static ArrayList<Player> Players = new ArrayList<Player>();
     private static ArrayList<Building> BuildingTypes;
     
     
@@ -109,7 +109,16 @@ public class Server {
     public static ArrayList<Player> getPlayers(){
         return Players;
     }
-
+    
+    
+    /**
+     * 
+     * @param player
+     * @param name
+     * @param locationx
+     * @param locationy
+     * @return the id of the newly created city, -1 if the player doesn't exist, -2 if there is a city at that location already.
+     */
     static int createCity(String player, String name, int locationx, int locationy) {
         Player Player = GetPlayerByName(player);
         if(Player == null){
@@ -117,7 +126,7 @@ public class Server {
         }
         int PlayerId = GetPlayerByName(player).getId();
         
-        if(GetCityByLocation(locationx, locationy)==null){
+        if(GetCityByLocation(locationx, locationy)!=null){
             return -2;//-2 is de error value als er al een city staat op die locatie...
         }
         
@@ -125,6 +134,27 @@ public class Server {
         Cities.add(createdCity);
         nextCityId++;
         return createdCity.getId();
+    }
+    
+    /**
+     * 
+     * @param name
+     * @return the id of the newly created player, -1 if a player with that name already exists, -2 if the name is not valid. 
+     */
+    static int createPlayer(String name){
+        for(int i=0; i < Players.size(); i++){
+            if(Players.get(i).getName().equalsIgnoreCase(name)){
+                return -1;
+            }
+        }
+        if(name.equalsIgnoreCase("")){
+            return -2;
+        }
+        
+        Player createdPlayer = new Player(nextPlayerId, name);
+        nextPlayerId++;
+        Players.add(createdPlayer);
+        return createdPlayer.getId();
     }
     
 }

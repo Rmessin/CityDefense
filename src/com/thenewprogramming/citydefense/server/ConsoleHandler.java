@@ -42,6 +42,8 @@ public class ConsoleHandler implements Runnable{
             }
         }
     }
+
+    
     
     
     @Override
@@ -59,10 +61,11 @@ public class ConsoleHandler implements Runnable{
         
         if(cmd.equalsIgnoreCase("")){return;}
         
-        if(cmd.equalsIgnoreCase("help")) ShowHelp(slicedCommand);
-        else if(cmd.equalsIgnoreCase("exit")) Exit(slicedCommand);
-        else if(cmd.equalsIgnoreCase("city")) City(slicedCommand);
-        else if(cmd.equalsIgnoreCase("test")) Test(slicedCommand);
+        if(cmd.equalsIgnoreCase("help")){ ShowHelp(slicedCommand);}
+        else if(cmd.equalsIgnoreCase("exit")){ Exit(slicedCommand);}
+        else if(cmd.equalsIgnoreCase("city")){ City(slicedCommand);}
+        else if(cmd.equalsIgnoreCase("test")){ Test(slicedCommand);}
+        else if(cmd.equalsIgnoreCase("player")){ Player(slicedCommand);}
         else{
             System.out.println("ERROR: Command not found.");
             ShowHelp(slicedCommand);
@@ -125,12 +128,12 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static void CityCreate(String[] slicedCommand){
-        if(slicedCommand.length < 4){
+        if(slicedCommand.length < 6){
             ShowHelp(slicedCommand);
             return;
         }
-        if(slicedCommand.length == 4){
-            int i = Server.createCity(slicedCommand[0], slicedCommand[1], Integer.parseInt(slicedCommand[2]), Integer.parseInt(slicedCommand[3]));
+        if(slicedCommand.length == 6){
+            int i = Server.createCity(slicedCommand[2], slicedCommand[3], Integer.parseInt(slicedCommand[4]), Integer.parseInt(slicedCommand[5]));
             if(i==-1){
                 System.out.println("Error: Player not found.");
                 return;
@@ -166,4 +169,45 @@ public class ConsoleHandler implements Runnable{
         
     }
     
+    private static void Player(String[] slicedCommand) {
+        if (slicedCommand[1].equalsIgnoreCase("list")||slicedCommand[1].equalsIgnoreCase("show")){
+            PlayerList(slicedCommand);
+        }
+        else if(slicedCommand[1].equalsIgnoreCase("create")){
+            PlayerCreate(slicedCommand);
+        }
+        else if(slicedCommand[1].equalsIgnoreCase("remove")){
+            PlayerRemove(slicedCommand);
+        }
+    }
+    
+    private static void PlayerList(String[] slicedCommand){
+        System.out.println(Server.getCities());
+    }
+    
+    private static void PlayerCreate(String[] slicedCommand){
+        if(slicedCommand.length < 3){
+            ShowHelp(slicedCommand);
+            return;
+        }
+        if(slicedCommand.length == 3){
+            int i = Server.createPlayer(slicedCommand[2]);
+            if(i==-1){
+                System.out.println("Error: That name is already in use.");
+                return;
+            }
+            if(i==-2){
+                System.out.println("Error: Please enter a valid name.");
+                return;
+            }
+            System.out.println("Player created successfully!");
+            System.out.println("ID: " + i);
+            
+        }
+        
+    }
+    
+    private static void PlayerRemove(String[] slicedCommand){
+        
+    }
 }
