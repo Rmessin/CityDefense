@@ -70,81 +70,99 @@ public class ConsoleHandler implements Runnable{
         
     }
     
-    private static void Test(String[] cmdline) {
-        System.out.println(java.util.Arrays.toString(cmdline));
+    private static void Test(String[] slicedCommand) {
+        System.out.println(java.util.Arrays.toString(slicedCommand));
     }
     
-    private static void Exit(String[] cmdline) {
+    private static void Exit(String[] slicedCommand) {
         exit = true;
     }
     
-    private static void ShowHelp(String[] cmdline) {
+    private static void ShowHelp(String[] slicedCommand) {
         //TODO add help texts for specific commands
         System.out.println("I am the help text.");
         
-        if(cmdline[0].equalsIgnoreCase("City") || cmdline[1].equalsIgnoreCase("City")){
+        if(slicedCommand[0].equalsIgnoreCase("City") || slicedCommand[1].equalsIgnoreCase("City")){
             
         }
-        else if(cmdline[0].equalsIgnoreCase("Exit") || cmdline[1].equalsIgnoreCase("Exit")){
+        else if(slicedCommand[0].equalsIgnoreCase("Exit") || slicedCommand[1].equalsIgnoreCase("Exit")){
             
         }
-        else if(cmdline[0].equalsIgnoreCase("Test") || cmdline[1].equalsIgnoreCase("Test")){
+        else if(slicedCommand[0].equalsIgnoreCase("Test") || slicedCommand[1].equalsIgnoreCase("Test")){
             
         }
     }
     
-    private static void City(String[] cmdline){
-        if (cmdline[1].equalsIgnoreCase("list")||cmdline[1].equalsIgnoreCase("show")){
-            CityList(cmdline);
+    private static void City(String[] slicedCommand){
+        if (slicedCommand[1].equalsIgnoreCase("list")||slicedCommand[1].equalsIgnoreCase("show")){
+            CityList(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("add")){
-            CityAdd(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("create")){
+            CityCreate(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("remove")){
-            CityRemove(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("remove")){
+            CityRemove(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("upgrade")){
-            CityUpgrade(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("upgrade")){
+            CityUpgrade(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("downgrade")){
-            CityDowngrade(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("downgrade")){
+            CityDowngrade(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("addtroops")){
-            CityAddTroops(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("addtroops")){
+            CityAddTroops(slicedCommand);
         }
-        else if(cmdline[1].equalsIgnoreCase("removetroops")){
-            CityRemoveTroops(cmdline);
+        else if(slicedCommand[1].equalsIgnoreCase("removetroops")){
+            CityRemoveTroops(slicedCommand);
         }
         else{
-            ShowHelp(cmdline);
+            ShowHelp(slicedCommand);
         }
     }
     
-    private static void CityList(String[] cmdline){
+    private static void CityList(String[] slicedCommand){
+        System.out.println(Server.getCities());
+    }
+    
+    private static void CityCreate(String[] slicedCommand){
+        if(slicedCommand.length < 4){
+            ShowHelp(slicedCommand);
+            return;
+        }
+        if(slicedCommand.length == 4){
+            int i = Server.createCity(slicedCommand[0], slicedCommand[1], Integer.parseInt(slicedCommand[2]), Integer.parseInt(slicedCommand[3]));
+            if(i==-1){
+                System.out.println("Error: Player not found.");
+                return;
+            }
+            if(i==-2){
+                System.out.println("Error: Another City is present at that location.");
+                return;
+            }
+            System.out.println("City created successfully!");
+            System.out.println("ID: " + i);
+            
+        }
         
     }
     
-    private static void CityAdd(String[] cmdline){
+    private static void CityRemove(String[] slicedCommand){
         
     }
     
-    private static void CityRemove(String[] cmdline){
+    private static void CityUpgrade(String[] slicedCommand){
         
     }
     
-    private static void CityUpgrade(String[] cmdline){
+    private static void CityDowngrade(String[] slicedCommand){
         
     }
     
-    private static void CityDowngrade(String[] cmdline){
+    private static void CityAddTroops(String[] slicedCommand){
         
     }
     
-    private static void CityAddTroops(String[] cmdline){
-        
-    }
-    
-    private static void CityRemoveTroops(String[] cmdline){
+    private static void CityRemoveTroops(String[] slicedCommand){
         
     }
     

@@ -19,17 +19,12 @@ public class GameLoopHandler implements Runnable{
     
     private boolean stop;
     
-    private ArrayList<City> Cities;
-    private ArrayList<Player> Players;
-    
     @Override
     public void run(){
         Start();
     }
     
     private void Start(){
-        Cities = Server.getCities();
-        Players = Server.getPlayers();
         
         Timer t = new Timer(1000, new ActionListener(){
           public void actionPerformed(ActionEvent e){
@@ -39,8 +34,8 @@ public class GameLoopHandler implements Runnable{
     }
     
     public void update(){
-        for(int i = 0; i < Cities.size(); i++){
-            Cities.get(i).update();
+        for(int i = 0; i < Server.getCities().size(); i++){
+            Server.getCities().get(i).update();
         }
     }
     

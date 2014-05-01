@@ -13,7 +13,8 @@ import java.util.ArrayList;
  * @author Reijer
  */
 public class Server {
-    
+    private static int nextCityId = 0;
+    private static int nextPlayerId;
     private static ArrayList<City> Cities;
     private static ArrayList<Player> Players;
     private static ArrayList<Building> BuildingTypes;
@@ -43,6 +44,27 @@ public class Server {
         return null;
     }
     
+    public static City GetCityByName(String cityName){
+        
+        for(int i=0; i < Cities.size(); i++){
+            if(Cities.get(i).getName().equalsIgnoreCase(cityName)){
+                return Cities.get(i);
+            }
+        }
+        return null;
+    }
+    
+    public static City GetCityByLocation(int x, int y){
+        int[] location = new int[]{x, y};
+        for(int i=0; i < Cities.size(); i++){
+            if(Cities.get(i).getLocation()==location){
+                return Cities.get(i);
+            }
+        }
+        
+        return null;
+    }
+    
     public static Player GetPlayerById(int playerId){
         
         for(int i=0; i < Players.size(); i++){
@@ -53,6 +75,15 @@ public class Server {
         return null;
     }
     
+    public static Player GetPlayerByName(String playerName){
+        
+        for(int i=0; i < Players.size(); i++){
+            if(Players.get(i).getName().equalsIgnoreCase(playerName)){
+                return Players.get(i);
+            }
+        }
+        return null;
+    }
     
     private static void InitBuildingTypes(){
         //TODO: Read all buildingfiles from directory and isert data into Building class.
@@ -77,6 +108,23 @@ public class Server {
     
     public static ArrayList<Player> getPlayers(){
         return Players;
+    }
+
+    static int createCity(String player, String name, int locationx, int locationy) {
+        Player Player = GetPlayerByName(player);
+        if(Player == null){
+            return -1;//-1 is the error value als de player niet bestaat...
+        }
+        int PlayerId = GetPlayerByName(player).getId();
+        
+        if(GetCityByLocation(locationx, locationy)==null){
+            return -2;//-2 is de error value als er al een city staat op die locatie...
+        }
+        
+        City createdCity = new City(nextCityId, PlayerId, name, locationy, locationy);
+        Cities.add(createdCity);
+        nextCityId++;
+        return createdCity.getId();
     }
     
 }

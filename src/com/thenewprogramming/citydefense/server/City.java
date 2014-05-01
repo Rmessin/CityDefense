@@ -88,7 +88,10 @@ public class City {
     private CityTile GG;
     
     
-    public City(int xCordinate, int yCordinate){
+    public City(int id, int ownerid, String name, int xCordinate, int yCordinate){
+        this.id = id;
+        OwnerId = ownerid;
+        Name = name;
         this.xCordinate = xCordinate;
         this.yCordinate = yCordinate;
     }
@@ -208,5 +211,9 @@ public class City {
 
     public int getFoodSupply() {
         return FoodSupply;
+    }
+    
+    public int[] getLocation(){
+        return new int[]{xCordinate, yCordinate};
     }
 }
