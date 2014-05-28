@@ -27,6 +27,10 @@ public class ConsoleHandler implements Runnable{
          ListenToCommands();
     }
     
+    public void stop(){
+        exit = true;
+    }
+    
     private static void ListenToCommands() {
         if (System.console() != null) {
             Scanner s = new Scanner(System.in);
@@ -78,7 +82,7 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static void Exit(String[] slicedCommand) {
-        exit = true;
+        Main.StopServer();
     }
     
     private static void ShowHelp(String[] slicedCommand) {
@@ -106,11 +110,11 @@ public class ConsoleHandler implements Runnable{
         else if(slicedCommand[1].equalsIgnoreCase("remove")){
             CityRemove(slicedCommand);
         }
-        else if(slicedCommand[1].equalsIgnoreCase("upgrade")){
+        else if(slicedCommand[1].equalsIgnoreCase("upgradebuilding")){
             CityUpgrade(slicedCommand);
         }
-        else if(slicedCommand[1].equalsIgnoreCase("downgrade")){
-            CityDowngrade(slicedCommand);
+        else if(slicedCommand[1].equalsIgnoreCase("makebuilding")){
+            CityMakeBuilding(slicedCommand);
         }
         else if(slicedCommand[1].equalsIgnoreCase("addtroops")){
             CityAddTroops(slicedCommand);
@@ -124,7 +128,16 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static void CityList(String[] slicedCommand){
-        System.out.println(Server.getCities());
+        ArrayList<City> cities = Server.getCities();
+        System.out.println(cities.size());
+        for(int i = 0; i < cities.size(); i++){
+            System.out.println("    Name: "+cities.get(i).getName());
+            System.out.println("    ID: "+cities.get(i).getId());
+            System.out.println("    OwnerName: "+Server.GetPlayerById(cities.get(i).getOwnerId()).getName());
+            System.out.println("    OwnerID: "+cities.get(i).getOwnerId());
+            System.out.println("    Wood-Supply: "+cities.get(i).getWoodSupply());
+            System.out.println("    Amount of buildings: "+cities.get(i).getAmountOfBuildings());
+        }
     }
     
     private static void CityCreate(String[] slicedCommand){
@@ -157,8 +170,49 @@ public class ConsoleHandler implements Runnable{
         
     }
     
-    private static void CityDowngrade(String[] slicedCommand){
-        
+    private static void CityMakeBuilding(String[] slicedCommand){
+        if(slicedCommand.length < 6){
+            ShowHelp(slicedCommand);
+            return;
+        }
+        if(slicedCommand.length == 6){
+            //City, Location, Type, level
+            
+            int outputFromCityMethod;
+            City cityToCreateIn = null;
+            
+            try{
+                cityToCreateIn = Server.GetCityById(Integer.parseInt(slicedCommand[2]));
+            }
+            catch(NumberFormatException e){
+                System.out.println("Error: please enter a valid city ID.");
+                return;
+            }
+            finally{
+                if(cityToCreateIn == null){
+                    System.out.println("Error: City not found.");
+                    return;
+                }
+            }
+            
+            if(Integer.parseInt(slicedCommand[3]) < 1 || Integer.parseInt(slicedCommand[3]) > 49){
+                System.out.println("Error: Please select a location between 1 and 49");
+                return;
+            }
+            
+            if(!slicedCommand[4].equalsIgnoreCase("Lumberjack")){
+                System.out.println("Error: Only lumberjack is supported at this time, sorry.");
+                return;
+            }
+            
+            if(Integer.parseInt(slicedCommand[5]) < 1){
+                System.out.println("Error: Please enter a valid level.");
+                return;
+            }
+            
+            Server.GetCityById(Integer.parseInt(slicedCommand[2])).createBuilding(Integer.parseInt(slicedCommand[3]), BuildingLumberjack.class, Integer.parseInt(slicedCommand[5]));
+            
+        }
     }
     
     private static void CityAddTroops(String[] slicedCommand){
@@ -182,7 +236,7 @@ public class ConsoleHandler implements Runnable{
     }
     
     private static void PlayerList(String[] slicedCommand){
-        System.out.println(Server.getCities());
+        System.out.println(Server.getPlayers());
     }
     
     private static void PlayerCreate(String[] slicedCommand){

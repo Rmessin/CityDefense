@@ -18,6 +18,7 @@ import javax.swing.Timer;
 public class GameLoopHandler implements Runnable{
     
     private boolean stop;
+    Timer t = null;
     
     @Override
     public void run(){
@@ -26,17 +27,26 @@ public class GameLoopHandler implements Runnable{
     
     private void Start(){
         
-        Timer t = new Timer(1000, new ActionListener(){
+        t = new Timer(1000, new ActionListener(){
+          @Override
           public void actionPerformed(ActionEvent e){
               update();
           }
-       });
+        });
+        t.start();
     }
     
     public void update(){
+        if(stop){
+            t.stop();
+        }
         for(int i = 0; i < Server.getCities().size(); i++){
             Server.getCities().get(i).update();
         }
+    }
+    
+    public void Stop(){
+        stop = true;
     }
     
 }

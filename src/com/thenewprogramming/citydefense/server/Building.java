@@ -8,7 +8,7 @@ public class Building extends CityTile{
     protected int level;
     
     protected int maxLevel;
-    protected int[][] CostToLevel = new int[5][maxLevel+1];/*Stone, Iron, Population, Wood and Time*/
+    protected int[][] CostToLevel = new int[5][maxLevel];/*Stone, Iron, Population, Wood and Time*/
     protected ArrayList<Integer> PointsPerUpgrade;
     protected boolean IsUpgrading;
     protected int ticksUntilEndOfConstruction; //Een tick is een game update, dit is waarschijnlijk gelijk aan het aantal seconden.
@@ -17,22 +17,14 @@ public class Building extends CityTile{
         super(city, location);
     }
     
+    public Building(int city, int location, int level){
+        super(city, location);
+        this.level = level;
+    }
+    
+    @Override
     public void update(){
-        if(IsUpgrading){
-            int PopulationWorkingOnBuild = Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() + CostToLevel[2][level];
-            if(ticksUntilEndOfConstruction == 0){
-                this.onUpgrade();
-            }
-            else if(PopulationWorkingOnBuild <= 25){
-                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - PopulationWorkingOnBuild;
-            }
-            else if(PopulationWorkingOnBuild > 25){
-                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - 25;
-            }
-        }
-        
-        
-        
+        continueUpgrade();
     }
     
     /**
@@ -46,27 +38,19 @@ public class Building extends CityTile{
      * Meant to be overridden, called when building has finished destruction.
      */
     public void onDestroy(){
-        
+        level = 0;
     }
     
     /**
      * Meant to be overridden, called when building has finished upgrading.
      */
-    public void onUpgrade(){
+    public void onUpgradeFinished(){
         level++;
         Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
         IsUpgrading = false;
         ticksUntilEndOfConstruction = 0;
         Server.GetCityById(City).IncreaseEmployedPopulation(CostToLevel[2][level]);
         
-    }
-    
-    /**
-     * Meant to be overridden, called when building has finished downgrading.
-     */
-    public void onDowngrade(){
-        Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
-        level--;
     }
     
     public int[] getCostToNextLevel(){
@@ -76,5 +60,20 @@ public class Building extends CityTile{
     public void startUpgrade(){
         IsUpgrading = true;
         ticksUntilEndOfConstruction = CostToLevel[4][level];
+    }
+    
+    protected void continueUpgrade(){
+        if(IsUpgrading){
+            int PopulationWorkingOnBuild = Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() + CostToLevel[2][level];
+            if(ticksUntilEndOfConstruction == 0){
+                this.onUpgradeFinished();
+            }
+            else if(PopulationWorkingOnBuild <= 25){
+                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - PopulationWorkingOnBuild;
+            }
+            else if(PopulationWorkingOnBuild > 25){
+                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - 25;
+            }
+        }
     }
 }

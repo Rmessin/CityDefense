@@ -20,13 +20,13 @@ public class BuildingHouse extends Building {
     }
     
     @Override
-    public void onUpgrade(){
+    public void onUpgradeFinished(){
         level++;
-    }
-    
-    @Override
-    public void onDowngrade(){
-        level--;
+        Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
+        IsUpgrading = false;
+        ticksUntilEndOfConstruction = 0;
+        Server.GetCityById(City).IncreaseEmployedPopulation(CostToLevel[2][level]);
+        
     }
     
 }

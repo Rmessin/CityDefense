@@ -1,5 +1,6 @@
 package com.thenewprogramming.citydefense.server;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class City {
@@ -9,8 +10,8 @@ public class City {
     private int OwnerId;
     
     private String Name;
-    private ArrayList<Unit> Units;
-    private ArrayList<CityTile> CityTiles;
+    private ArrayList<Unit> Units = new ArrayList<Unit>();
+    private ArrayList<CityTile> CityTiles = new ArrayList<CityTile>();
     
     private int StoragePerRecourse;
     
@@ -98,9 +99,11 @@ public class City {
     
     public void update(){
         for(int i = 0; i < CityTiles.size(); i++){
-            if(CityTiles.get(i).getClass().getSuperclass() == Building.class){
+            /*if(CityTiles.get(i).getClass().getSuperclass() == Building.class){
                 ((Building)CityTiles.get(i)).update();
-            }
+            }*/
+            
+            CityTiles.get(i).update();
         }
         
     }
@@ -216,4 +219,31 @@ public class City {
     public int[] getLocation(){
         return new int[]{xCordinate, yCordinate};
     }
+    
+    public void createBuilding(int location, Class BuildingType, int level){
+        Building createdBuilding;
+        try{
+            createdBuilding = (Building) BuildingType.getConstructors()[0].newInstance(new Object[]{this.id, location, level});
+        }
+        catch(SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
+            System.out.println("Error when creating building!");
+            e.printStackTrace();
+            return;
+        }
+        CityTiles.add(createdBuilding);
+    }
+    
+    public int getAmountOfBuildings(){
+        int returnvalue = 0;
+        for(int i = 0; i < CityTiles.size(); i++){
+            if(CityTiles.get(i).getClass().getSuperclass() == Building.class || CityTiles.get(i).getClass().getSuperclass().getSuperclass() == Building.class){
+                returnvalue++;
+            }
+        }
+        
+        
+        
+        return returnvalue;
+    }
+    
 }

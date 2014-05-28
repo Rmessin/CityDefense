@@ -12,65 +12,15 @@ import java.util.ArrayList;
  *
  * @author Reijer
  */
-public class BuildingLumberjack extends Building{
+public class BuildingLumberjack extends BuildingRecourseProducer{
     
     
-    private int secondsFromLastProduction;
-    private int BaseProduction;
-    private int ExtraProduction;
-    
-    
-    public BuildingLumberjack(int city, int location){
-        super(city, location);
+    public BuildingLumberjack(int city, int location, int level){
+        super(city, location, "Wood", LandscapeForest.class);
         Name = "Lumberjack";
+        this.level = level;
         secondsFromLastProduction = 0;
         BaseProduction = 10;
-    }
-    
-    @Override
-    public void update(){
-        CheckSurroundingTiles();
-        ProduceGoods();
-    }
-    
-    private void CheckSurroundingTiles(){
-        ArrayList<CityTile> SurroundingTiles = this.GetSurroundingCityTiles();
-        int NumberOfUsefulSurroundings = 0;
-        
-        for(int i = 0; i < SurroundingTiles.size(); i++){
-            if(SurroundingTiles.get(i).getClass() == LandscapeForest.class){
-                NumberOfUsefulSurroundings++;
-            }
-        }
-        try{
-            ExtraProduction = (int) ((0.10 * NumberOfUsefulSurroundings) * BaseProduction);
-        }
-        catch(Exception e){
-            
-        }
-        
-    }
-    
-    private void ProduceGoods() {
-        BaseProduction = 10 * level;
-        if(secondsFromLastProduction == 5){
-            Server.GetCityById(City).addToSupply("Wood", BaseProduction + ExtraProduction);
-            secondsFromLastProduction = 0;
-        }
-        else{
-            secondsFromLastProduction++;
-        }
-    }
-    
-    @Override
-    public void onUpgrade(){
-        level++;
-        //Server.GetCityById(City).IncreasePopulation(2);
-    }
-    
-    @Override
-    public void onDowngrade(){
-        level--;
     }
     
 }
