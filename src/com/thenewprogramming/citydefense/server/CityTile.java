@@ -23,7 +23,7 @@ public class CityTile {
     }
     
     protected ArrayList<CityTile> GetSurroundingCityTiles(){
-        ArrayList<CityTile> ReturnValue = new ArrayList<CityTile>();
+        ArrayList<CityTile> ReturnValue = new ArrayList<>();
         int[] SurroundingTileNumbersRelative = {-8, -7, -6, -1, 1, 6, 7, 8};
         
         for(int i = 0; i < 8; i++){

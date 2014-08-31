@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Server {
     private static int nextCityId = 0;
-    private static int nextPlayerId;
+    private static int nextPlayerId = 0;
     private static ArrayList<City> Cities = new ArrayList<City>();
     private static ArrayList<Player> Players = new ArrayList<Player>();
     private static ArrayList<Building> BuildingTypes;
@@ -119,18 +119,17 @@ public class Server {
      * @param locationy
      * @return the id of the newly created city, -1 if the player doesn't exist, -2 if there is a city at that location already.
      */
-    static int createCity(String player, String name, int locationx, int locationy) {
-        Player Player = GetPlayerByName(player);
-        if(Player == null){
+    static int createCity(int playerId, String name, int locationx, int locationy) {
+        
+        if(GetPlayerById(playerId) == null){
             return -1;//-1 is the error value als de player niet bestaat...
         }
-        int PlayerId = GetPlayerByName(player).getId();
         
         if(GetCityByLocation(locationx, locationy)!=null){
             return -2;//-2 is de error value als er al een city staat op die locatie...
         }
         
-        City createdCity = new City(nextCityId, PlayerId, name, locationy, locationy);
+        City createdCity = new City(nextCityId, playerId, name, locationy, locationy);
         Cities.add(createdCity);
         nextCityId++;
         return createdCity.getId();

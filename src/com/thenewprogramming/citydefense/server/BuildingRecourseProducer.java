@@ -33,6 +33,17 @@ public class BuildingRecourseProducer extends Building{
         ProduceGoods();
     }
     
+    protected void ProduceGoods() {
+        
+        BaseProduction = 10 * level;
+        if(secondsFromLastProduction == 5){
+            Server.GetCityById(City).addToSupply(RecourseToProduce, BaseProduction + ExtraProduction);
+            secondsFromLastProduction = 0;
+        }
+        else{
+            secondsFromLastProduction++;
+        }
+    }
     protected void CheckSurroundingTiles(){
         ArrayList<CityTile> SurroundingTiles = this.GetSurroundingCityTiles();
         int NumberOfUsefulSurroundings = 0;
@@ -50,16 +61,4 @@ public class BuildingRecourseProducer extends Building{
         }
         
     }
-    
-    protected void ProduceGoods() {
-        BaseProduction = 10 * level;
-        if(secondsFromLastProduction == 5){
-            Server.GetCityById(City).addToSupply(RecourseToProduce, BaseProduction + ExtraProduction);
-            secondsFromLastProduction = 0;
-        }
-        else{
-            secondsFromLastProduction++;
-        }
-    }
-    
 }

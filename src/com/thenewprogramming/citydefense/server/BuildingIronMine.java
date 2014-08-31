@@ -10,10 +10,14 @@ package com.thenewprogramming.citydefense.server;
  *
  * @author Reijer
  */
-public class BuildingIronMine extends Building{
+public class BuildingIronMine extends BuildingRecourseProducer{
     
-    public BuildingIronMine(int city, int location){
-        super(city, location);
+    public BuildingIronMine(int city, int location, int level){
+        super(city, location, "Iron", LandscapeIron.class);
+        Name = "Iron Mine";
+        this.level = level;
+        secondsFromLastProduction = 0;
+        BaseProduction = 10;
     }
     
 }

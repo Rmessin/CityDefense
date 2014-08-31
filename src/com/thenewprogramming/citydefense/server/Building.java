@@ -8,10 +8,11 @@ public class Building extends CityTile{
     protected int level;
     
     protected int maxLevel;
-    protected int[][] CostToLevel = new int[5][maxLevel];/*Stone, Iron, Population, Wood and Time*/
+    protected int[][] CostToLevel = new int[maxLevel][5];/*Wood, Stone, Iron, Population & Time*/
     protected ArrayList<Integer> PointsPerUpgrade;
     protected boolean IsUpgrading;
-    protected int ticksUntilEndOfConstruction; //Een tick is een game update, dit is waarschijnlijk gelijk aan het aantal seconden.
+    protected int remainingUpgradeTime = 0;
+    protected int unemployedPopulationWorkingOnUpgrade;
     
     public Building(int city, int location){
         super(city, location);
@@ -24,56 +25,61 @@ public class Building extends CityTile{
     
     @Override
     public void update(){
-        continueUpgrade();
+        if(IsUpgrading){
+            continueUpgrade();
+        }
     }
     
     /**
-     * Meant to be overridden, called when building has finished construction.
+     * Gives an array of ints that indicate the cost for this building to be upgraded to the next level
+     * 
+     * @return The array containing the ints, in order of: Wood, Stone, Iron, Population & Time 
      */
-    public void onBuild(){
-        level = 1;
-    }
-    
-    /**
-     * Meant to be overridden, called when building has finished destruction.
-     */
-    public void onDestroy(){
-        level = 0;
-    }
-    
-    /**
-     * Meant to be overridden, called when building has finished upgrading.
-     */
-    public void onUpgradeFinished(){
-        level++;
-        Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
-        IsUpgrading = false;
-        ticksUntilEndOfConstruction = 0;
-        Server.GetCityById(City).IncreaseEmployedPopulation(CostToLevel[2][level]);
-        
-    }
-    
     public int[] getCostToNextLevel(){
         return CostToLevel[level];
     }
     
     public void startUpgrade(){
         IsUpgrading = true;
-        ticksUntilEndOfConstruction = CostToLevel[4][level];
-    }
-    
-    protected void continueUpgrade(){
-        if(IsUpgrading){
-            int PopulationWorkingOnBuild = Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() + CostToLevel[2][level];
-            if(ticksUntilEndOfConstruction == 0){
-                this.onUpgradeFinished();
-            }
-            else if(PopulationWorkingOnBuild <= 25){
-                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - PopulationWorkingOnBuild;
-            }
-            else if(PopulationWorkingOnBuild > 25){
-                ticksUntilEndOfConstruction = ticksUntilEndOfConstruction - 25;
-            }
+        int standardUpgradeLength = CostToLevel[level][4];
+        
+        //Check for unemployed population to help upgrade
+        if(Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() <= 10){
+            unemployedPopulationWorkingOnUpgrade = Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation();
         }
+        else if(Server.GetCityById(City).getPopulation() - Server.GetCityById(City).getEmployedPopulation() > 10){
+            unemployedPopulationWorkingOnUpgrade = 10;
+        }
+        else{
+            unemployedPopulationWorkingOnUpgrade = 0;
+        }
+        Server.GetCityById(City).IncreaseEmployedPopulation(unemployedPopulationWorkingOnUpgrade);
+        
+        //Calculate the time it will take for the upgrade to finish
+        double timeSaved = unemployedPopulationWorkingOnUpgrade * 0.05 * standardUpgradeLength;
+        double newUpgradeLength = standardUpgradeLength - timeSaved;
+        remainingUpgradeTime = (int) Math.round(newUpgradeLength);
+        
+        
+    }
+    protected void continueUpgrade(){
+        remainingUpgradeTime--;
+        if(remainingUpgradeTime == 0){
+            this.onUpgradeFinished();
+        }
+    }
+    protected void onUpgradeFinished(){
+        IsUpgrading = false;
+        remainingUpgradeTime = 0;
+        Server.GetCityById(City).DecreaseEmployedPopulation(unemployedPopulationWorkingOnUpgrade);
+        
+        Server.GetCityById(City).IncreaseEmployedPopulation(CostToLevel[level][3]);
+        Server.GetCityById(City).increasePoints(PointsPerUpgrade.get(level));
+        level++;
+        
+        
+    }
+    public int getRemaingingUpgradeTime(){
+        return remainingUpgradeTime;
     }
 }

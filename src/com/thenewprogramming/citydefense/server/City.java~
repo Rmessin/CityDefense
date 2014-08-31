@@ -29,6 +29,65 @@ public class City {
     int xCordinate;
     int yCordinate;
     
+    //de eerste letter is de x-waarde, de tweede letter is de y-waarde
+    
+    
+    private CityTile AA;
+    private CityTile AB;
+    private CityTile AC;
+    private CityTile AD;
+    private CityTile AE;
+    private CityTile AF;
+    private CityTile AG;
+
+    private CityTile BA;
+    private CityTile BB;
+    private CityTile BC;
+    private CityTile BD;
+    private CityTile BE;
+    private CityTile BF;
+    private CityTile BG;
+    
+    private CityTile CA;
+    private CityTile CB;
+    private CityTile CC;
+    private CityTile CD;
+    private CityTile CE;
+    private CityTile CF;
+    private CityTile CG;
+    
+    private CityTile DA;
+    private CityTile DB;
+    private CityTile DC;
+    private CityTile DD;
+    private CityTile DE;
+    private CityTile DF;
+    private CityTile DG;
+    
+    private CityTile EA;
+    private CityTile EB;
+    private CityTile EC;
+    private CityTile ED;
+    private CityTile EE;
+    private CityTile EF;
+    private CityTile EG;
+    
+    private CityTile FA;
+    private CityTile FB;
+    private CityTile FC;
+    private CityTile FD;
+    private CityTile FE;
+    private CityTile FF;
+    private CityTile FG;
+    
+    private CityTile GA;
+    private CityTile GB;
+    private CityTile GC;
+    private CityTile GD;
+    private CityTile GE;
+    private CityTile GF;
+    private CityTile GG;
+    
     
     public City(int id, int ownerid, String name, int xCordinate, int yCordinate){
         this.id = id;
@@ -161,7 +220,7 @@ public class City {
         return new int[]{xCordinate, yCordinate};
     }
     
-    /*public void createBuilding(int location, Class BuildingType, int level){
+    public void createBuilding(int location, Class BuildingType, int level){
         Building createdBuilding;
         try{
             createdBuilding = (Building) BuildingType.getConstructors()[0].newInstance(new Object[]{this.id, location, level});
@@ -172,7 +231,7 @@ public class City {
             return;
         }
         CityTiles.add(createdBuilding);
-    }*/
+    }
     
     public int getAmountOfBuildings(){
         int returnvalue = 0;
@@ -181,32 +240,23 @@ public class City {
                 returnvalue++;
             }
         }
+        
+        
+        
         return returnvalue;
     }
     
-    public void buildNewBuilding(int Location, String BuildingType){
+    public static void buildNewBuilding(int location, String BuildingType){
         Building newBuilding;
-        if(CityTiles.get(Location).getClass() != CityTileEmpty.class){
-            System.out.println("Something went wrong, method buildNewBuilding(location, BuildingType) was called with a location containing a building.");
-            System.out.println("ID: " + id + ", Name: " + Name + ", OwnerId: " + OwnerId);
-        }
         if(BuildingType.equalsIgnoreCase("Lumberjack")){
-            newBuilding = new BuildingLumberjack(this.id, Location, 0);
+            
         }
-        else{
-            return;
+        else if(BuildingType.equalsIgnoreCase("Iron")){
+            
         }
-        CityTiles.set(Location, newBuilding);
+        else if(BuildingType.equalsIgnoreCase("Lumberjack")){
+            
+        }
     }
     
-    public void upgradeBuilding(int BuildingLocation){
-        Building b;
-        b = (Building) CityTiles.get(BuildingLocation);
-        
-        this.addToSupply("Wood", -b.getCostToNextLevel()[0]);
-        this.addToSupply("Stone", -b.getCostToNextLevel()[1]);
-        this.addToSupply("Iron", -b.getCostToNextLevel()[2]);
-        
-        b.startUpgrade();
-    }
 }
